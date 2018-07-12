@@ -1,0 +1,8 @@
+vi .bashrc 
+. .bashrc
+clear
+vi install-packages.sh
+chmod +x install-packages.sh 
+ls
+./install-packages.sh 
+kubeadm join 10.142.0.6:6443 --token tk1tx1.7xbv7sx7lujfqjfl --discovery-token-ca-cert-hash sha256:09efef7ef13993a522f5189393b235fc0855f7c5fda7f01d7a09f54be931d5b4
