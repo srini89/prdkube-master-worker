@@ -1,0 +1,618 @@
+vi .bashrc 
+. .bashrc 
+clear
+vi install-packages.sh
+ls
+vi install-packages.sh
+chmod +x install-packages.sh 
+ls
+./install-packages.sh 
+vi install-packages.sh
+./install-packages.sh 
+vi install-packages.sh
+./install-packages.sh 
+curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get > get_helm.sh
+ls
+chmod 700 get_helm.sh 
+./get_helm.sh 
+sudo swapoff -a
+cd /etc/kubernetes/
+ls
+cd
+sudo sysctl net.bridge.bridge-nf-call-iptables=1
+sudo kubeadm init
+kubectl get nodes
+cd /etc/kubernetes/pki/
+ls
+cd etcd/
+ls
+cd
+sudo mkdir -p /root/.kube
+sudo mkdir -p $HOME/.kube
+sudo cp /etc/kubernetes/admin.conf /root/.kube/config
+sudo cp /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+kubectl taint nodes --all node-role.kubernetes.io/master-
+kubeadm init --pod-network-cidr=10.244.0.0/16
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/v0.9.1/Documentation/kube-flannel.yml
+kubectl get pods --all-namespaces
+kubeadm init --pod-network-cidr=10.244.0.0/16
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/v0.10.0/Documentation/kube-flannel.yml
+kubectl get pods --all-namespaces
+kubeadm init --pod-network-cidr=10.244.0.0/16 --skip-preflight-checks
+kubectl get pods --all-namespaces
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/v0.9.1/Documentation/kube-flannel.yml
+kubectl get pods --all-namespaces
+kubectl get nodes
+kubectl get pods --all-namespaces
+kubectl -n kube-system create sa tiller
+kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
+helm init --service-account tiller
+kubectl get pods -n kube-system
+vi install-packages.sh 
+kubectl get nodes
+kubectl get pods --all-namesapces
+kubectl get pods --all-namespaces
+kubectl get nodes
+cd .kube/
+ls
+vi config 
+CD
+cd
+clearf
+clear
+ls
+clear
+helm repo list
+helm install  stable/nginx-ingress --name nginx --set controller.hostNetwork=true --set controller.service.type=NodePort --set rbac.create=true
+kubectl get pods
+clear
+helm install  stable/kubernetes-dashboard --name management  --set ingress.enabled=true --set ingress.hosts[0]=dashboard-lower-kube.hindsight.com  --set rbac.create=true
+kubectl get pods
+kubectl logs management-kubernetes-dashboard-5954f6699f-q6mff
+helm ls
+helm delete --purge management
+helm install  stable/kubernetes-dashboard --name management  --set ingress.enabled=true --set ingress.hosts[0]=dashboard-lower-kube.hindsight.com  --set rbac.create=true --namespace kube-system
+kubectl get pods -n kube-system
+kubectl get deployment
+kubectl get deployment -n kube-system
+kubectl describe deploy v -n kube-system
+kubectl describe deploy management-kubernetes-dashboard -n kube-system
+kubectl get pods -n kube-system
+kubectl describe pod management-kubernetes-dashboard-5954f6699f-k8rjn -n kube-system
+kubectl logs management-kubernetes-dashboard-5954f6699f-k8rjn -n kube-system
+kubectl get ing
+kubectl get ing -n kube-system
+kubectl get svc -n kube-system
+kubectl describe svc management-kubernetes-dashboard -n kube-system
+curl 10.244.1.4:8443
+ping dashboard-lower-kube.hindsight.com
+clear
+kubectl get pods -n kube-system
+kubectl logs management-kubernetes-dashboard-5954f6699f-k8rjn -n kube-system
+kubectl edit ing -n kube-system
+
+kubectl get pods -n kube-system
+clear
+helm fetch stable/kubernetes-dashboard
+ls
+tar -xvf kubernetes-dashboard-0.7.0.tgz 
+ls
+cd kubernetes-dashboard/
+ls
+vi values.yaml 
+cd templates/
+ls
+vi ingress.yaml 
+cd
+helm ls
+helm delete --purge management
+helm pacakage kubernetes-dashboard --debug
+helm package kubernetes-dashboard --debug
+helm install kubernetes-dashboard-0.7.0.tgz --name management  --set ingress.enabled=true --set ingress.hosts[0]=dashboard-lower-kube.hindsight.com  --set rbac.create=true --namespace kube-system
+kubectl edit ing -n kube-system
+kubectl get secrets
+kubectl get secrets -n kube-system
+kubectl describe secret  management-kubernetes-dashboard-token-k5dr6 -n kube-system
+kubectl get pods -n kube-system
+kubectl describe pod management-kubernetes-dashboard-5954f6699f-wmrph -n kube-system
+clear
+ls
+cd kubernetes-dashboard/
+ls
+vi values.yaml 
+cd 
+helm package kubernetes-dashboard --debug
+helm delete --purge management
+helm install kubernetes-dashboard-0.7.0.tgz --name management  --set ingress.enabled=true --set ingress.hosts[0]=dashboard-lower-kube.hindsight.com  --set rbac.create=true --namespace kube-system
+
+kubectl describe pod management-kubernetes-dashboard-5954f6699f-htfpd -n kube-system
+kubectl describe secret management-kubernetes-dashboard-token-6ch9k -n kube-system
+cd kubernetes-dashboard/templates/
+vi deployment.yaml 
+ls
+vi role
+vi role.yaml 
+vi secret.yaml 
+vi serviceaccount.yaml 
+vi svc.yaml 
+vi NOTES.txt 
+vi role
+vi role.yaml 
+cd
+kubectl get pods -n kube-system
+kubectl describe pod management-kubernetes-dashboard-5954f6699f-htfpd -n kube-system
+kubectl logs  management-kubernetes-dashboard-5954f6699f-htfpd -n kube-system
+echo eyJhbGciOiJSUzI1NiIsImtpZCI6IiJ9.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJtYW5hZ2VtZW50LWt1YmVybmV0ZXMtZGFzaGJvYXJkLXRva2VuLTZjaDlrIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6Im1hbmFnZW1lbnQta3ViZXJuZXRlcy1kYXNoYm9hcmQiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiJjZGRiY2MwZC03NGI4LTExZTgtOTJkOC00MjAxMGE4ZTAwMDYiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZS1zeXN0ZW06bWFuYWdlbWVudC1rdWJlcm5ldGVzLWRhc2hib2FyZCJ9.B3Iw9YFP46hKiuQA9e4x_K48LtCAkKiHI_uQ61ch5SuNovovAR018LiMHZGlzPk2xdIGxRYqOEnjOzVN_yOh-Qbwn3qTZzlnYh101Oq43V_wFrs_fURLPHJtX2fiWEdwFMK-SsluQnh4r122QVZDzVN40ZMj66EEEZpSPgu2_9QEfzWMyJo-OQBcr6YKeUMgt5-YXyMQybXvFuEJZJ3QnCIkKBwSZ6V-jIMyHjgoUpj4MvrG--zSQL3CPaUpKPb854StCk3FDXQqYFyEmFLsRU6-5i5aneJEWW2n1C-Adygim8oJf0QssLRrYimESSsKdfkcGYN8LmcxCxQ8PppTKg | base64
+echo ZXlKaGJHY2lPaUpTVXpJMU5pSXNJbXRwWkNJNklpSjkuZXlKcGMzTWlPaUpyZFdKbGNtNWxkR1Z6
+TDNObGNuWnBZMlZoWTJOdmRXNTBJaXdpYTNWaVpYSnVaWFJsY3k1cGJ5OXpaWEoyYVdObFlXTmpi
+M1Z1ZEM5dVlXMWxjM0JoWTJVaU9pSnJkV0psTFhONWMzUmxiU0lzSW10MVltVnlibVYwWlhNdWFX
+OHZjMlZ5ZG1salpXRmpZMjkxYm5RdmMyVmpjbVYwTG01aGJXVWlPaUp0WVc1aFoyVnRaVzUwTFd0
+MVltVnlibVYwWlhNdFpHRnphR0p2WVhKa0xYUnZhMlZ1TFRaamFEbHJJaXdpYTNWaVpYSnVaWFJs
+Y3k1cGJ5OXpaWEoyYVdObFlXTmpiM1Z1ZEM5elpYSjJhV05sTFdGalkyOTFiblF1Ym1GdFpTSTZJ
+bTFoYm1GblpXMWxiblF0YTNWaVpYSnVaWFJsY3kxa1lYTm9ZbTloY21RaUxDSnJkV0psY201bGRH
+VnpMbWx2TDNObGNuWnBZMlZoWTJOdmRXNTBMM05sY25acFkyVXRZV05qYjNWdWRDNTFhV1FpT2lK
+alpHUmlZMk13WkMwM05HSTRMVEV4WlRndE9USmtPQzAwTWpBeE1HRTRaVEF3TURZaUxDSnpkV0lp
+T2lKemVYTjBaVzA2YzJWeWRtbGpaV0ZqWTI5MWJuUTZhM1ZpWlMxemVYTjBaVzA2YldGdVlXZGxi
+V1Z1ZEMxcmRXSmxjbTVsZEdWekxXUmhjMmhpYjJGeVpDSjkuQjNJdzlZRlA0NmhLaXVRQTllNHhf
+SzQ4THRDQWtLaUhJX3VRNjFjaDVTdU5vdm92QVIwMThMaU1IWkdselBrMnhkSUd4UllxT0Vuak96
+Vk5feU9oLVFid24zcVRaemxuWWgxMDFPcTQzVl93RnJzX2ZVUkxQSEp0WDJmaVdFZHdGTUstU3Ns
+dVFuaDRyMTIyUVZaRHpWTjQwWk1qNjZFRUVacFNQZ3UyXzlRRWZ6V015Sm8tT1FCY3I2WUtlVU1n
+dDUtWVh5TVF5Ylh2RnVFSlpKM1FuQ0lrS0J3U1o2Vi1qSU15SGpnb1VwajRNdnJHLS16U1FMM0NQ
+YVVwS1BiODU0U3RDazNGRFhRcVlGeUVtRkxzUlU2LTVpNWFuZUpFV1cybjFDLUFkeWdpbThvSmYw
+UXNzTFJyWWltRVNTc0tkZmtjR1lOOExtY3hDeFE4UHBwVEtnCg==
+echo ZXlKaGJHY2lPaUpTVXpJMU5pSXNJbXRwWkNJNklpSjkuZXlKcGMzTWlPaUpyZFdKbGNtNWxkR1Z6
+TDNObGNuWnBZMlZoWTJOdmRXNTBJaXdpYTNWaVpYSnVaWFJsY3k1cGJ5OXpaWEoyYVdObFlXTmpi
+M1Z1ZEM5dVlXMWxjM0JoWTJVaU9pSnJkV0psTFhONWMzUmxiU0lzSW10MVltVnlibVYwWlhNdWFX
+OHZjMlZ5ZG1salpXRmpZMjkxYm5RdmMyVmpjbVYwTG01aGJXVWlPaUp0WVc1aFoyVnRaVzUwTFd0
+MVltVnlibVYwWlhNdFpHRnphR0p2WVhKa0xYUnZhMlZ1TFRaamFEbHJJaXdpYTNWaVpYSnVaWFJs
+Y3k1cGJ5OXpaWEoyYVdObFlXTmpiM1Z1ZEM5elpYSjJhV05sTFdGalkyOTFiblF1Ym1GdFpTSTZJ
+bTFoYm1GblpXMWxiblF0YTNWaVpYSnVaWFJsY3kxa1lYTm9ZbTloY21RaUxDSnJkV0psY201bGRH
+VnpMbWx2TDNObGNuWnBZMlZoWTJOdmRXNTBMM05sY25acFkyVXRZV05qYjNWdWRDNTFhV1FpT2lK
+alpHUmlZMk13WkMwM05HSTRMVEV4WlRndE9USmtPQzAwTWpBeE1HRTRaVEF3TURZaUxDSnpkV0lp
+T2lKemVYTjBaVzA2YzJWeWRtbGpaV0ZqWTI5MWJuUTZhM1ZpWlMxemVYTjBaVzA2YldGdVlXZGxi
+V1Z1ZEMxcmRXSmxjbTVsZEdWekxXUmhjMmhpYjJGeVpDSjkuQjNJdzlZRlA0NmhLaXVRQTllNHhf
+SzQ4THRDQWtLaUhJX3VRNjFjaDVTdU5vdm92QVIwMThMaU1IWkdselBrMnhkSUd4UllxT0Vuak96
+Vk5feU9oLVFid24zcVRaemxuWWgxMDFPcTQzVl93RnJzX2ZVUkxQSEp0WDJmaVdFZHdGTUstU3Ns
+dVFuaDRyMTIyUVZaRHpWTjQwWk1qNjZFRUVacFNQZ3UyXzlRRWZ6V015Sm8tT1FCY3I2WUtlVU1n
+dDUtWVh5TVF5Ylh2RnVFSlpKM1FuQ0lrS0J3U1o2Vi1qSU15SGpnb1VwajRNdnJHLS16U1FMM0NQ
+YVVwS1BiODU0U3RDazNGRFhRcVlGeUVtRkxzUlU2LTVpNWFuZUpFV1cybjFDLUFkeWdpbThvSmYw
+UXNzTFJyWWltRVNTc0tkZmtjR1lOOExtY3hDeFE4UHBwVEtnCg==cleara
+clear
+kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep admin-user | awk '{print $1}')
+kubectl -n kube-system get secret | grep admin-user
+kubectl -n kube-system get secret | grep admin-user | awk '{print $1}'
+ls
+cd kubernetes-dashboard/
+ls
+cd templates/
+ls
+vi rolebinding.yaml 
+cd ..
+helm pacakage kubernetes-dashboard --debug
+helm package kubernetes-dashboard --debug
+helm delete --purge management
+helm install kubernetes-dashboard-0.7.0.tgz --name management  --set ingress.enabled=true --set ingress.hosts[0]=dashboard-lower-kube.hindsight.com  --set rbac.create=true --namespace kube-system
+kubectl get pods 
+kubectl -n kube-system get secret | grep admin-user
+kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep admin-user | awk '{print $1}')
+kubectl get secrets -n kube-system
+kubectl describe secret management-kubernetes-dashboard-token-tkmg7 -n kube-system
+helm template kubernetes-dashboard-0.7.0.tgz 
+helm delete --purge management
+cd kubernetes-dashboard/
+ls
+vi templates/rolebinding.yaml 
+ls
+rm -rf 1
+ls
+cd .
+cd 
+helm package kubernetes-dashboard --debug
+helm install kubernetes-dashboard-0.7.0.tgz --name management  --set ingress.enabled=true --set ingress.hosts[0]=dashboard-lower-kube.hindsight.com  --set rbac.create=true --namespace kube-system
+kubectl get secret -n kube-system
+helm template kubernetes-dashboard-0.7.0.tgz 
+kubectl get sa
+kubectl get sa -n kube-system
+vi kubernetes-dashboard/templates/rolebinding.yaml 
+helm package kubernetes-dashboard --debug
+helm delete --purge management
+helm install kubernetes-dashboard-0.7.0.tgz --name management  --set ingress.enabled=true --set ingress.hosts[0]=dashboard-lower-kube.hindsight.com  --set rbac.create=true --namespace kube-system
+kubectl get secret -n kube-system
+kubectl describe secret management-kubernetes-dashboard-token-dx5fg -n kube-system
+kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep admin-user | awk '{print $1}')
+cd ..
+cd
+cd kubernetes-dashboard/
+cd templates/
+ls
+vi rolebinding.yaml 
+cd
+helm package kubernetes-dashboard --debug
+helm delete --purge management
+helm install kubernetes-dashboard-0.7.0.tgz --name management  --set ingress.enabled=true --set ingress.hosts[0]=dashboard-lower-kube.hindsight.com  --set rbac.create=true --namespace kube-system
+cd kubernetes-dashboard/
+ls
+vi templates/ingress.yaml 
+vi values.yaml 
+vi templates/ingress.yaml 
+vi values.yaml 
+cd
+helm template kubernetes-dashboard-0.7.0.tgz 
+vi .bash_history 
+kubectl get clusterrolebinding --all-namespaces
+kubectl get sa --all-namespaces
+ls
+cat install-packages.sh 
+k get clusterrolebindings cluster-admin-binding  -o yaml
+kubectl get clusterrolebindings cluster-admin-binding  -o yaml
+kubectl get clusterrolebindings -n kube-system cluster-admin-binding  -o yaml
+kubectl get clusterrolebindings -n kube-system
+clear
+kubectl get nodes
+kubectl get pods --all-namespaces
+kubectl get sa --all-namespaces
+kubectl get clusterrolebinding -n kube-system
+kubectl get rolebinding -n kube-system
+kubectl get rolebinding --all-namespaces
+docker login cap280.azurecr.io -u cap280 -p C9lv2h8XGDSmsaB2nkG5JlbGM+PrEa1I
+cd .docker/
+ls
+cat config.json 
+cd
+clear
+vi docker-key
+kubectl create -f docker-key 
+vi docker-key 
+clear
+docker login cap280.azurecr.io -u cap280 -p C9lv2h8XGDSmsaB2nkG5JlbGM+PrEa1I
+docker pull cap280.azurecr.io/admin1:latest
+docker images
+clear
+helm create cap280
+ls
+cd cap280/
+ls
+vi values.yaml 
+ls
+vi Chart.yaml 
+cd templates/
+vi deployment.yaml 
+vi service.yaml 
+vi ingress.yaml 
+ls
+vi _helpers.tpl 
+vi deployment.yaml 
+cd
+ls
+cd cap280/
+helm lint
+vi templates/ingress.yaml 
+helm lint
+helm install --dry-run .
+clear
+cd ..
+helm package cap280/ --debug
+helm install cap280-0.1.0.tgz
+clear
+kubectl get pods
+kubectl describe pod cap280-7f54d6975f-f84vk
+clear
+kubectl get pods
+kubectl delete pod cap280-7f54d6975f-f84vk
+kubectl get pods
+clear
+kubectl get pods
+kubectl describe pod cap280-7f54d6975f-d8c2d
+docker images
+clear
+kubectl create secret docker-registry registrycredentials-cap280.azurecr.io --docker-server=cap280.azurecr.io --docker-username=cap280 --docker-password=C9lv2h8XGDSmsaB2nkG5JlbGM+PrEa1I --docker-email=michael@azured.io
+cd cap280/
+ls
+vi values.yaml 
+vi templates/deployment.yaml 
+cd ..
+helm package cap280 --debug
+helm ls
+helm delete --purge angry-beeault
+helm ls
+helm delete --purge angry-bee
+clear
+ls
+clear
+helm install cap280-0.1.0.tgz 
+clear
+kubectl get pofs
+kubectl get pods
+kubectl get ing
+kubectl get svc
+kubectl describe svc cap 280
+kubectl describe svc cap280
+curl 10.244.1.17:80
+curl 10.244.1.17
+curl htpp://10.244.1.17
+curl http://10.244.1.17
+kubectl get pods
+kubectl logs cap280-b9d9b56bf-q82tv
+kubectl get ing
+kubectl describe ing
+kubectl edit svc cap280
+kubectl get svc
+kubectl describe svc cap280
+curl 10.244.1.17:80
+helm ls
+helm delete quaffing-bee
+helm ls
+kubectl get svc
+kubectl get ing
+cd cap280/
+ls
+vi values.yaml 
+cd ..
+helm package cap280 --debug
+helm install cap280-0.1.0.tgz 
+kubectl get svc'
+kubectl get svc
+kubect describe svc cap280
+kubectl describe svc cap280
+curl http://10.244.1.18:30733
+kubectl get ing
+kubectl edit ing 
+kubectl get pods
+kubectl exec -ti cap280-66695c9db4-tjf68 bash
+exit
+clear
+kubectl get ing
+kubectl describe ing
+kubectl edit ing
+ping testadmin.280cap.net
+nslookup testadmin.280cap.net
+ls
+clear
+ls
+pwd
+ls
+git clone https://github.com/srini89/Pub-iden.git
+ls
+cd cap280/
+git clone https://github.com/srini89/Pub-iden.git
+git add .
+cd ..
+git add cap280-0.1.0.tgz 
+cd cap280/
+git init
+git add .
+git commit -m "files"
+git push
+git branch 
+git branch  -a
+git push master
+git push --set-upstream master master
+git push --set-upstream master
+git push
+git remote add master https://github.com/srini89/Pub-iden.git
+git push
+git push master
+git status
+git add .
+git commit -m "add"
+ls
+git init
+git add .
+git commit -m "sfsdfs"
+git push
+cd ..
+ls
+git init
+git add cap280
+git commit -m "dfsdf"
+git config --global --edit
+git commit --amend --reset-author
+git config --global user.name "srini89"
+git config --global user.email ksrinii89@gmail.com
+git status
+git add cap280-0.1.0.tgz 
+git staus
+git status
+git commit -m "send gile"
+git push
+git push srini89/Pub-iden
+git push --set-upstream srini89/Pub-iden master
+git push --set-upstream master
+git push --set-upstream
+ls
+git status
+git push
+git push https://github.com/srini89/Pub-iden.git
+git push --set-upstream https://github.com/srini89/Pub-iden.git master
+clear
+git clone https://github.com/srini89/charts
+ls
+cd charts/
+ls
+cd ..
+cp -r cap280-0.1.0.tgz  charts/
+ls
+cd charts/
+ls
+git add .
+git commit -m "added cap"
+ls
+git status
+git push
+clear
+ls
+rm -rf cap280-0.1.0.tgz 
+git update
+clear
+git add .
+git commit -m "removed"
+git push
+cd ..
+rm -rf charts/
+ls
+clear
+ls
+git clone https://github.com/pires/kubernetes-elasticsearch-cluster.git
+ls
+cd kubernetes-elasticsearch-cluster/
+ls
+vi es-ingest.yaml
+cd stateful/
+ls
+kubectl create -f ../es-discovery-svc.yaml
+kubectl create -f ../es-svc.yaml
+kubectl create -f ../es-master.yaml
+kubectl rollout status -f ../es-master.yaml
+kubectl create -f ../es-ingest-svc.yaml
+kubectl create -f ../es-ingest.yaml
+kubectl rollout status -f ../es-ingest.yaml
+kubectl create -f es-data-stateful.yaml
+kubectl get pods
+kubectl get svc 
+kubectl describe svc elasticsearch                         
+curl http://localhost:9200
+kubectl rollout status -f es-data-stateful.yaml
+clear
+ls
+kubectl rollout status -f es-data-stateful.yaml
+ls
+kubectl get pods
+kubectl get deploy
+kubectl delete deploy es-ingest
+kubectl delete deploy es-master
+kubectl delete deploy cap280
+kubectl get svc
+kubectl delete svc cap280 elasticsearch elasticsearch-discovery elasticsearch-ingest
+kubectl get ing
+kubectl delete ing testadmin.280cap.net
+kubectl delete ing cap280
+kubectl get all
+kubectl delete statefulset.apps/es-data
+kubectl get pods
+clear
+kubectl create namespace chartmuseum
+helm repo list
+helm search stable/chartmuseum
+helm fetch stable/chartmuseum
+ls
+tar -xvf chartmuseum-1.5.0.tgz 
+ls
+cd chartmuseum/
+ls
+vi values.yaml 
+cd
+helm install --name chartmuseum -n chartmuseum stable/chartmuseum --set env.open.DISABLE_API=false
+kubectl get pods -n chartmusem
+kubectl get pods -n env.open.DISABLE_API
+kubectl get pods -n chartmuseum 
+kubectl get pods
+helm ls 
+helm delete --purge chartmuseum 
+kubectl get ns 
+helm install --name chartmuseum --namespace chartmuseum  stable/chartmuseum --set env.open.DISABLE_API=false
+kubectl get pods -n chartmuseum   
+curl http://127.0.0.1:8080/
+export POD_NAME=$(kubectl get pods --namespace chartmuseum -l "app=chartmuseum" -l "release=chartmuseum" -o jsonpath="{.items[0].metadata.name}")
+echo http://127.0.0.1:8080/
+kubectl port-forward $POD_NAME 8080:8080
+kubectl port-forward $POD_NAME -n chartmuseum 8080:8080
+kubectl get svc -n chartmuseum
+kubectl describe svc -n chartmuseum
+curl 10.244.1.32:8080
+helm repo add chartmuseum http://10.244.1.32:8080
+helm repo list
+helm repo add srini http://10.244.1.32:8080
+helm repo list
+ls
+curl http://10.244.1.32:8080/api/charts
+curl --data-binary "@cap280-0.1.0.tgz" http://10.244.1.32:8080/api/charts
+helm repo update srini/cap280
+helm repo update
+helm search srini/
+helm search chartmuseum/
+curl http://10.244.1.32:8080
+curl http://10.244.1.32:8080/api/charts
+apt-get install jq
+curl http://10.244.1.32:8080/api/charts | grep jq
+curl http://10.244.1.32:8080/api/charts | jq
+ls
+clear
+kuebctl get pods -n chartmuseem
+kuebctl get pods -n chartmuseum
+kubectl get pods -n chartmuseum
+clear
+ls
+cat install-packages.sh 
+clear
+ls
+cd Pub-iden/
+ls
+vi hi.txt 
+cd
+ls
+kubectl get pods --all-namespaces
+vi .bash_history 
+kubectl get pods
+clear
+kubectln kube-system
+kubectl get pods -n kube-system
+kubectl describe pod kube-flannel-ds-f82x8 -n kube-system
+vi .bash_history 
+clear
+ls
+kubectl get pods
+kubectlns kube-system
+kubectl get ing -n kube-system
+ls
+rm -rf cap280
+tar -xvf cap280-0.1.0.tgz 
+rm -rf cap280
+ls
+rm -rf cap280-0.1.0.tgz 
+ls
+helm repo list
+helm search srini
+helm search 
+clear
+kubectl get nodes
+ls
+cp -r /home/ksrinii89/kibana-0.1.4.tgz /root
+ls
+tar -xvf kibana-0.1.4.tgz 
+ls
+cd kibana/
+ls
+vi values.yaml 
+cd
+kubectl get pods --all-namespaces
+clear
+ls
+vi install-packages.sh 
+mkdir baba
+cd baba/
+ls
+vi deployment.yaml
+kubectl create -f deployment.yaml 
+kubectl get pods
+kubectl delete pod nginx-deployment-75675f5897-rrs2b
+kubectl get pods
+kubectl get deployment
+kubectl delete deploy nginx-deployment
+
+kubectl create -f deployment.yaml 
+kubectl get deploy
+kubectl edit deploy nginx-deployment
+kubectl get pods
+cd
+cd baba/
+ls
+helm create baba
+cd baba/
+ls
+cd templates/
+vi deployment.yaml 
+cd ..
+vi values.yaml 
+cd
+ls
